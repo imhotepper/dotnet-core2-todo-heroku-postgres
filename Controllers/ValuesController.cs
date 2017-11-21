@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace app2.Controllers
 {
@@ -10,12 +11,24 @@ namespace app2.Controllers
     public class ValuesController : Controller
     {
         // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        //[HttpGet]
+        // public IEnumerable<string> Get()
+        // {
+        //     return new string[] { "value1", "value2" };
+        // }
 
+        [HttpGet]
+        public string Get()
+        {
+            var enumerator = Environment.GetEnvironmentVariables().GetEnumerator();
+            var sb = new StringBuilder();
+
+            while (enumerator.MoveNext())
+            {
+                sb.AppendLine($"{enumerator.Key} - {enumerator.Value}");
+            }
+            return sb.ToString();
+       }
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
