@@ -10,6 +10,11 @@ namespace app2.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        DbCtx _db;
+        public ValuesController(DbCtx db)
+        {
+            _db = db;
+        }
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
@@ -29,6 +34,9 @@ namespace app2.Controllers
             }
             return sb.ToString();
        }
+        [HttpGet("todoes")]
+        public IEnumerable<Todo> GetTodos() => _db.Todos.ToList();
+
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)

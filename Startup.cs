@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -23,6 +24,13 @@ namespace app2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+ var enumerator = Environment.GetEnvironmentVariables();
+            
+var connectionString = enumerator["DATABASE_URL"]?.ToString();
+if (string.IsNullOrWhiteSpace(connectionString)) connectionString = Configuration.GetConnectionString("DbCtx");
+          
+     services.AddEntityFrameworkNpgsql().AddDbContext<DbCtx>(options => options.UseNpgsql(connectionString));
+
             services.AddMvc();
         }
 
@@ -33,7 +41,6 @@ namespace app2
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvc();
