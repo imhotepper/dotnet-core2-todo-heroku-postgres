@@ -11,14 +11,14 @@ namespace app2.Controllers
     public class ValuesController : Controller
     {
         // GET api/values
-        //[HttpGet]
-        // public IEnumerable<string> Get()
-        // {
-        //     return new string[] { "value1", "value2" };
-        // }
-
         [HttpGet]
-        public string Get()
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        [HttpGet("environment")]
+        public string GetEnvironment()
         {
             var enumerator = Environment.GetEnvironmentVariables().GetEnumerator();
             var sb = new StringBuilder();
