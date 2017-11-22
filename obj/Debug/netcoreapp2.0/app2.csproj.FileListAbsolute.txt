@@ -8,3 +8,13 @@
 /Users/daiot/temp/heroku-docker/app2/obj/Debug/netcoreapp2.0/app2.AssemblyInfo.cs
 /Users/daiot/temp/heroku-docker/app2/obj/Debug/netcoreapp2.0/app2.dll
 /Users/daiot/temp/heroku-docker/app2/obj/Debug/netcoreapp2.0/app2.pdb
+/Users/daiot/temp/heroku-docker/core todo heroku postgres/bin/Debug/netcoreapp2.0/app2.deps.json
+/Users/daiot/temp/heroku-docker/core todo heroku postgres/bin/Debug/netcoreapp2.0/app2.runtimeconfig.json
+/Users/daiot/temp/heroku-docker/core todo heroku postgres/bin/Debug/netcoreapp2.0/app2.runtimeconfig.dev.json
+/Users/daiot/temp/heroku-docker/core todo heroku postgres/bin/Debug/netcoreapp2.0/app2.dll
+/Users/daiot/temp/heroku-docker/core todo heroku postgres/bin/Debug/netcoreapp2.0/app2.pdb
+/Users/daiot/temp/heroku-docker/core todo heroku postgres/obj/Debug/netcoreapp2.0/app2.csproj.CoreCompileInputs.cache
+/Users/daiot/temp/heroku-docker/core todo heroku postgres/obj/Debug/netcoreapp2.0/app2.AssemblyInfoInputs.cache
+/Users/daiot/temp/heroku-docker/core todo heroku postgres/obj/Debug/netcoreapp2.0/app2.AssemblyInfo.cs
+/Users/daiot/temp/heroku-docker/core todo heroku postgres/obj/Debug/netcoreapp2.0/app2.dll
+/Users/daiot/temp/heroku-docker/core todo heroku postgres/obj/Debug/netcoreapp2.0/app2.pdb

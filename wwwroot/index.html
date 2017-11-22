@@ -2,11 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>core api </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>my todos</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
 </head>
 <body>
-    <h1>.Net core api ...</h1>
+
+
+<div class="container" id="vue-app" v-cloak >
+    <div class="row" id="">
+        <div class="col-md-6">
+            <div class="todolist not-done">
+                <h1>{{title}}</h1>
+                <input type="text" v-model="newTodo" @keyup.13="addTodo" class="form-control add-todo" placeholder="Add todo">
+                <button id="checkAll"  @click="completeTodo" class="btn btn-success ">Mark as selected done</button>
+
+                <hr>
+                <h3 v-if="isLoading"> loading data  ...</h3>
+                <h3 v-if="!todos.length > 0 && !isLoading">No todos yet</h3>
+                <ul id="sortable" class="list-unstyled">
+                    <li v-for="todo in todos" class="ui-state-default">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" v-model="selectedTodos"   :value="todo.id" />{{todo.title}}</label>
+                        </div>
+                    </li>
+                </ul>
+                <div class="todo-footer" v-show="false">
+                    <strong><span class="count-todos"></span></strong> Items Left
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="todolist">
+                <h1>Already Done</h1>
+                <h3 v-if="!completedTodos.length > 0">No completed todos yet</h3>
+                <ul id="done-items" v-for="t in completedTodos" class="list-unstyled">
+                    <li>{{t.title}} <button class="remove-item btn btn-default btn-xs pull-right"><span @click="deleteTodo(t.id)" class="glyphicon glyphicon-remove"></span></button></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="x-template" id="app-component">
+
+</script>
+
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vuex"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script src="app.js"></script>
+
 </body>
 </html>

@@ -14,8 +14,6 @@ namespace app2.Controllers
     {
         DbCtx _db;
         public TodosController(DbCtx db) => _db = db;
-            
-        
 
         [HttpPost]
         public Todo Post([FromBody] Todo todo){
@@ -25,9 +23,25 @@ namespace app2.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Todo> Get(){
-                return _db.Todos.ToList();
-                
+        public IEnumerable<Todo> Get() => _db.Todos.ToList();
+
+        [HttpPost("{id}/complete")]
+        public Todo Complete(int id){
+            var todo = _db.Todos.FirstOrDefault(x=>x.Id == id);
+            todo.IsCompleted = true;
+            _db.SaveChanges();
+            return todo;
         }
+
+        [HttpDelete("{id}")]
+        public Todo Delete(int id){
+            var todo = GetById(id);
+            _db.Todos.Remove(todo);
+            _db.SaveChanges();
+            return todo;
+        }
+
+
+        private Todo GetById(int id) => _db.Todos.FirstOrDefault(x => x.Id == id);
     }
 }
