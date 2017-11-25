@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,40 +12,19 @@ namespace app2.Controllers
     [Route("api/[controller]")]
     public class TodosController
     {
-        DbCtx _db;
-        IMediator _mediatr;
-        public TodosController(DbCtx db, IMediator mediatr){
-             _db = db;
-             _mediatr = mediatr;
-        }
+        readonly IMediator _mediatr;
+        public TodosController(IMediator mediatr) => _mediatr = mediatr;
 
         [HttpPost]
-        public async Task<Todo> Post([FromBody] Todo todo)
-        {
-            return await _mediatr.Send(new CreateTodo{Todo = todo});
-        }
+        public async Task<Todo> Post([FromBody] Todo todo) => await _mediatr.Send(new CreateTodoCmd {Todo = todo});
 
         [HttpGet]
-        public async Task<IEnumerable<Todo>> Get() =>await _mediatr.Send(new TodosList());
+        public async Task<IEnumerable<Todo>> Get() => await _mediatr.Send(new TodosListQuery());
 
         [HttpPost("{id}/complete")]
-        public Todo Complete(int id)
-        {
-            var todo = _db.Todos.FirstOrDefault(x => x.Id == id);
-            todo.IsCompleted = true;
-            _db.SaveChanges();
-            return todo;
-        }
+        public async Task<Todo> Complete(int id) => await _mediatr.Send(new CompleteTodoCmd {Id = id});
 
         [HttpDelete("{id}")]
-        public Todo Delete(int id)
-        {
-            var todo = GetTodoById(id);
-            _db.Todos.Remove(todo);
-            _db.SaveChanges();
-            return todo;
-        }
-
-        private Todo GetTodoById(int id) => _db.Todos.FirstOrDefault(x => x.Id == id);
+        public async Task<Todo> Delete(int id) => await _mediatr.Send(new DeleteTodoCmd {Id = id});
     }
 }

@@ -11,6 +11,5 @@ public class DbCtx : DbContext
    public DbCtx(DbContextOptions<DbCtx> options) : base(options) { 
      Database.Migrate();
    }
-
     public DbSet<Todo> Todos { get; set; }     
 }
