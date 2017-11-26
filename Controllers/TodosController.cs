@@ -7,7 +7,7 @@ using System.Text;
 using System.Net.Http;
 using MediatR;
 
-namespace app2.Controllers
+namespace TodoApi.Controllers
 {
     [Route("api/[controller]")]
     public class TodosController

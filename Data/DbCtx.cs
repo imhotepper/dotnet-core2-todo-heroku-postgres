@@ -8,8 +8,8 @@ public class DbCtx : DbContext
     // and add this to appSettings.json
     // "ConnectionStrings": { "BlogContext": "Server=localhost;Database=blog" }
 
-   public DbCtx(DbContextOptions<DbCtx> options) : base(options) { 
-     Database.Migrate();
-   }
-    public DbSet<Todo> Todos { get; set; }     
+    public DbCtx(DbContextOptions<DbCtx> options) : base(options) =>
+        Database.Migrate();
+
+    public DbSet<Todo> Todos { get; set; }
 }

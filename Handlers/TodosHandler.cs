@@ -5,6 +5,26 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 
 
+#region TodoList handler
+
+public class TodosListQuery : IRequest<List<Todo>>
+{
+}
+
+public class TodosListHandler :  IRequestHandler<TodosListQuery, List<Todo>>
+{
+    private readonly DbCtx _db;
+
+    public TodosListHandler(DbCtx db) => _db = db;
+
+    public List<Todo> Handle(TodosListQuery request)
+    {
+        return _db.Todos.ToList();
+    }
+}
+
+#endregion
+
 #region Create TODO handler
 
 public class CreateTodoCmd :  IRequest<Todo>
@@ -23,26 +43,6 @@ public class CreateTodoHandler :  IRequestHandler<CreateTodoCmd, Todo>
         _db.Todos.Add(todoCmd.Todo);
         _db.SaveChanges();
         return todoCmd.Todo;
-    }
-}
-
-#endregion
-
-#region TodoList
-
-public class TodosListQuery : IRequest<List<Todo>>
-{
-}
-
-public class TodosListHandler :  IRequestHandler<TodosListQuery, List<Todo>>
-{
-    private readonly DbCtx _db;
-
-    public TodosListHandler(DbCtx db) => _db = db;
-
-    public List<Todo> Handle(TodosListQuery request)
-    {
-        return _db.Todos.ToList();
     }
 }
 
@@ -70,6 +70,7 @@ public class DeleteTodoHandler :  IRequestHandler<DeleteTodoCmd, Todo>
         return todo;
     }
 }
+#endregion
 
 #region Complete TODO handler
 
@@ -95,4 +96,3 @@ public class CompleteTodoHabdler: IRequestHandler<CompleteTodoCmd, Todo>
 
 #endregion 
 
-#endregion
