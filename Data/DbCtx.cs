@@ -1,6 +1,7 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-public class DbCtx : DbContext
+public class DbCtx : IdentityDbContext//  DbContext
 {
     // When used with ASP.net core, add these lines to Startup.cs
     //   var connectionString = Configuration.GetConnectionString("BlogContext");

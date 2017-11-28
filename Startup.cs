@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+//using HerokuPostgresConnectionStringParser;
 
 namespace app2
 {
@@ -39,6 +40,7 @@ namespace app2
             string _connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
             if (!string.IsNullOrWhiteSpace(_connectionString))
             {
+               
                 _connectionString.Replace("//", "");
 
                 char[] delimiterChars = { '/', ':', '@', '?' };
@@ -59,6 +61,42 @@ namespace app2
 
             services.AddEntityFrameworkNpgsql().AddDbContext<DbCtx>(options => options.UseNpgsql(connectionString));
 
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 3;
+                    options.Password.RequiredUniqueChars = 0;
+                })
+                .AddEntityFrameworkStores<DbCtx>()
+                .AddDefaultTokenProviders();
+            
+            
+            services.AddAuthentication(options => {
+                    options.DefaultAuthenticateScheme = "JwtBearer";
+                    options.DefaultChallengeScheme = "JwtBearer";            
+                })
+                .AddJwtBearer("JwtBearer", jwtBearerOptions =>
+                {                        
+                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                    {                            
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your secret goes here")),
+
+                        ValidateIssuer = true,
+                        ValidIssuer = "TodoApi",
+
+                        ValidateAudience = true,
+                        ValidAudience = "The name of the audience",
+
+                        ValidateLifetime = true, //validate the expiration and not before values in the token
+
+                        ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+                    };
+                });
+            
             services.AddMvc();
         }
 
@@ -71,7 +109,17 @@ namespace app2
             }
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseAuthentication(); //needs to be up in the pipeline, before MVC
+      
             app.UseMvc();
+            
+            
+            //custom error on 404
+            app.Run(async (context) =>
+            {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync("Page not found");
+            });
         }
     }
 }
